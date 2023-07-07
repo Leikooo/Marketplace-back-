@@ -3,23 +3,15 @@ const { DataTypes } = require('sequelize');
 
 const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    username: { type: DataTypes.STRING, unique: true, allowNull: false },
+    username: { type: DataTypes.STRING, unique: true },
+    email: { type: DataTypes.STRING, unique: true, allowNull: false},
+    password: { type: DataTypes.STRING, allowNull: false },
     balance: { type: DataTypes.INTEGER, defaultValue: 0 },
     deposit: { type: DataTypes.INTEGER, defaultValue: 0 },
     avatar: { type: DataTypes.STRING, defaultValue: 'default.png' },
     status: { type: DataTypes.STRING, defaultValue: 'active' },
     role: { type: DataTypes.STRING, defaultValue: 'user' },
     rating: { type: DataTypes.INTEGER, defaultValue: 0 },
-});
-
-
-
-const Auth = sequelize.define('auth', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    user_id: { type: DataTypes.INTEGER, allowNull: false },
-    email: { type: DataTypes.STRING, unique: true, allowNull: false},
-    login: { type: DataTypes.STRING, unique: true},
-    password: { type: DataTypes.STRING, allowNull: false }
 });
 
 const Order = sequelize.define('order', {
@@ -38,9 +30,10 @@ const Item = sequelize.define('item', {
     description: { type: DataTypes.STRING },
     created_by: { type: DataTypes.INTEGER, allowNull: false },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
-    position_id: { type: DataTypes.INTEGER },
-    category_id: { type: DataTypes.INTEGER },
-    price: { type: DataTypes.INTEGER }
+    position_id: { type: DataTypes.INTEGER, allowNull: false  },
+    category_id: { type: DataTypes.INTEGER, allowNull: false  },
+    price: { type: DataTypes.INTEGER, allowNull: false },
+    img: { type: DataTypes.STRING, defaultValue: 'default.png' },
 });
 
 const Position = sequelize.define('position', {
@@ -56,6 +49,7 @@ const Category = sequelize.define('category', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING, allowNull: false },
     created_by: { type: DataTypes.INTEGER, allowNull: false },
+    description: { type: DataTypes.STRING },
     is_deleted: { type: DataTypes.BOOLEAN, defaultValue: false },
 });
 
@@ -119,8 +113,6 @@ Position.hasMany(Item, { foreignKey: 'position_id' });
 Category.belongsTo(User, { foreignKey: 'created_by' });
 User.hasMany(Category, { foreignKey: 'created_by' });
 
-Auth.belongsTo(User, { foreignKey: 'user_id' });
-User.hasMany(Auth, { foreignKey: 'user_id' });
 
 Deposit.belongsTo(User, { foreignKey: 'user_id' });
 User.hasMany(Deposit, { foreignKey: 'user_id' });
@@ -139,7 +131,6 @@ User.hasMany(Message, { foreignKey: 'user_id' });
 
 module.exports = {
     User,
-    Auth,
     Order,
     Item,
     Position,
