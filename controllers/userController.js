@@ -88,7 +88,7 @@ class UserController {
             return res.json({ token });
         } catch (err) {
             console.error(err.message);
-            res.status(500).send('Ошибка сервера');
+            return next(ApiError.internal('Ошибка сервера'));
         }
     }
 

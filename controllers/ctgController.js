@@ -41,10 +41,10 @@ class CtgController{
     }
     async update(req, res, next) {
         try {
-            const { id, title, description, created_by } = req.body;
+            const {id, title, description, created_by} = req.body;
             const category = await Category.update(
-                { title, description, created_by },
-                { where: { id } },
+                {title, description, created_by},
+                {where: {id}},
             );
             return res.json(category);
         } catch (e) {

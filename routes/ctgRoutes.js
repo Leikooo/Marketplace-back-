@@ -1,6 +1,7 @@
 const Router = require('express');
 const router = new Router();
 
+const roleMiddleware = require('../middleware/roleMiddleware');
 const ctgController = require('../controllers/ctgController.js');
 
 router.get('/', ctgController.getAll);
