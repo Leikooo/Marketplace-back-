@@ -10,8 +10,8 @@ router.post('/registration', userController.registration);
 router.post('/login', userController.login);
 router.get('/auth', authMiddleware, userController.check);
 router.get('/getUser', userController.getUser);
-router.get('/getUsers',userController.getUsers);
-router.post('/updateUser', roleMiddleware("ADMIN"),userController.updateUser);
-router.post('/banUser', roleMiddleware("ADMIN"),userController.banUser);
+router.get('/getUsers', userController.getUsers);
+router.post('/updateUser', roleMiddleware("ADMIN"), userController.updateUser);
+router.post('/banUser', roleMiddleware("ADMIN"), userController.banUser);
 
 module.exports = router;
