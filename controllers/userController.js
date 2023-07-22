@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const ApiError = require('../error/ApiError');
 let { User } = require('../models/models.js');
-
+const multer = require('multer');
 
 
 const generateJwt = (id, email, role) => {
@@ -72,7 +72,7 @@ class UserController {
             if (!isMatch) {
                 return next(ApiError.badRequest('Неверный пароль'));
             }
-
+            console.log(req.body);
             // Создаем JWT-токен для пользователя
             const token = generateJwt(user.id, user.email, user.role);
 
