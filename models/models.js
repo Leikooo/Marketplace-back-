@@ -12,6 +12,8 @@ const User = sequelize.define('user', {
     status: { type: DataTypes.STRING, defaultValue: 'active' },
     role: { type: DataTypes.STRING, defaultValue: 'user' },
     rating: { type: DataTypes.INTEGER, defaultValue: 0 },
+    isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
+    activationLink: { type: DataTypes.STRING },
 });
 
 const Order = sequelize.define('order', {
@@ -86,6 +88,15 @@ const Message = sequelize.define('message', {
     text: { type: DataTypes.STRING, allowNull: false },
 });
 
+const Token = sequelize.define('token', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    user_id: { type: DataTypes.INTEGER, allowNull: false },
+    refresh_token: { type: DataTypes.STRING, allowNull: false },
+});
+
+User.hasOne(Token, { foreignKey: 'user_id' });
+Token.belongsTo(User, { foreignKey: 'user_id' });
+
 Comment.belongsTo(User, { foreignKey: 'user_id' });
 Comment.belongsTo(Item, { foreignKey: 'item_id' });
 Item.hasMany(Comment, { foreignKey: 'item_id' });
@@ -131,6 +142,7 @@ User.hasMany(Message, { foreignKey: 'user_id' });
 
 module.exports = {
     User,
+    Token,
     Order,
     Item,
     Position,
